@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Due Flame — Pizza Napoletana Catering</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            flame: '#E63C1E',
+            'flame-orange': '#FF6B35',
+            'flame-deep': '#B02D12',
+            'surface': '#111111',
+            'surface-2': '#1A1A1A',
+            'surface-3': '#242424',
+            'italian-green': '#009246',
+          },
+          fontFamily: {
+            display: ['Oswald', 'sans-serif'],
+            body: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #0A0A0A; color: #fff; font-family: 'Inter', sans-serif; }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.03;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+    }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; }
+    .nav-bg {
+      background: linear-gradient(180deg, rgba(10,10,10,0.98) 0%, rgba(10,10,10,0.0) 100%);
+      backdrop-filter: blur(0px);
+      transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .nav-bg.scrolled {
+      background: rgba(10,10,10,0.96) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 100%, rgba(230,60,30,0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 30% 60%, rgba(255,107,53,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 70% 55%, rgba(176,45,18,0.10) 0%, transparent 65%),
+        #0A0A0A;
+    }
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://placehold.co/1600x900/0d0d0d/1a1a1a?text=.');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.35;
+      mix-blend-mode: luminosity;
+    }
+
+    /* Flame line accent */
+    .flame-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .flame-line::before, .flame-line::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 40px;
+      background: linear-gradient(90deg, transparent, #E63C1E);
+    }
+    .flame-line::after {
+      background: linear-gradient(90deg, #E63C1E, transparent);
+    }
+
+    /* Italian stripe */
+    .italian-stripe {
+      display: flex;
+      height: 3px;
+      width: 48px;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .italian-stripe span { flex: 1; }
+
+    /* CARDS */
+    .service-card {
+      background: linear-gradient(135deg, #1A1A1A 0%, #141414 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(230,60,30,0.3);
+      box-shadow: 0 20px 60px -10px rgba(230,60,30,0.2), 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .step-card {
+      background: linear-gradient(135deg, #171717 0%, #111111 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #E63C1E, transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .step-card:hover::before { opacity: 1; }
+
+    /* MENU CARD */
+    .menu-card {
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+    }
+    .menu-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 24px 60px -12px rgba(230,60,30,0.25), 0 8px 24px rgba(0,0,0,0.6);
+    }
+    .menu-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .menu-card:hover img { transform: scale(1.05); }
+    .menu-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.1) 100%);
+      pointer-events: none;
+    }
+    .menu-card-color {
+      position: absolute;
+      inset: 0;
+      background: rgba(230,60,30,0.08);
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    /* STATS */
+    .stat-item {
+      text-align: center;
+      padding: 32px 24px;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .stat-item:last-child { border-right: none; }
+
+    /* TESTIMONIAL */
+    .testimonial-card {
+      background: linear-gradient(135deg, #181818, #111);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      transition: border-color 0.3s ease;
+    }
+    .testimonial-card:hover { border-color: rgba(230,60,30,0.25); }
+
+    /* CTA SECTION */
+    .cta-section {
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 100%, rgba(230,60,30,0.2) 0%, transparent 70%),
+        linear-gradient(180deg, #0A0A0A 0%, #0d0605 100%);
+    }
+
+    /* BUTTON STYLES */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #E63C1E, #B02D12);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 16px 36px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+      box-shadow: 0 4px 20px rgba(230,60,30,0.35), 0 2px 8px rgba(0,0,0,0.4);
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(230,60,30,0.5), 0 4px 12px rgba(0,0,0,0.5);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 15px 36px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+      text-decoration: none;
+    }
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.05);
+      transform: translateY(-2px);
+    }
+    .btn-ghost:active { transform: translateY(0); }
+
+    /* NAV LINKS */
+    .nav-link {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.2s ease;
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: #E63C1E;
+      transform: scaleX(0);
+      transition: transform 0.25s ease;
+      transform-origin: left;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { transform: scaleX(1); }
+
+    /* SECTION LABEL */
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #E63C1E;
+      margin-bottom: 12px;
+      display: block;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    /* Black outline on all red-colored text */
+    [style*="color:#E63C1E"] {
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+
+    /* DIVIDER */
+    .flame-divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, #E63C1E, #FF6B35);
+      border-radius: 99px;
+      margin: 16px 0 0;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* SCROLL ANIMATION */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* INPUT */
+    .form-input {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      padding: 14px 18px;
+      width: 100%;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      outline: none;
+    }
+    .form-input:focus {
+      border-color: rgba(230,60,30,0.5);
+      background: rgba(255,255,255,0.07);
+    }
+    .form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+    /* ICON CIRCLE */
+    .icon-circle {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(230,60,30,0.15), rgba(230,60,30,0.05));
+      border: 1px solid rgba(230,60,30,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* HERO GALLERY */
+    .hero-gallery {
+      width: 440px;
+      height: 520px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    .hero-product-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      object-fit: cover;
+      border-radius: 16px;
+      opacity: 0;
+      z-index: 0;
+      transform: translateX(-28%);
+      transition: transform 3s cubic-bezier(0.4,0,0.2,1), opacity 3s ease;
+      box-shadow: 0 32px 80px -8px rgba(0,0,0,0.9), 0 12px 40px rgba(230,60,30,0.15);
+      cursor: pointer;
+      will-change: transform, opacity;
+    }
+    .hero-product-img.active {
+      transform: translateX(0);
+      opacity: 1;
+      z-index: 2;
+    }
+    .hero-product-img.leaving {
+      transform: translateX(0);
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Mobile menu toggle */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,10,10,0.97);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-nav-link {
+      font-family: 'Oswald', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .mobile-nav-link:hover { color: #E63C1E; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav>
+  <div class="nav-bg" id="navbar">
+    <div style="max-width:1280px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:center;gap:40px;height:80px;">
+      <!-- Logo -->
+      <a href="#" style="display:flex;align-items:center;">
+        <img src="Brand_assets/Logo brez slogana_transparent.png"
+             alt="Due Flame"
+             style="height:56px;width:auto;object-fit:contain;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);"
+             onmouseover="this.style.transform='scale(1.8)'"
+             onmouseout="this.style.transform='scale(1)'" />
+      </a>
+
+      <!-- Desktop nav -->
+      <div style="display:flex;align-items:center;gap:36px;" class="hidden-mobile">
+        <a href="#storitve" class="nav-link">Storitve</a>
+        <a href="#kako" class="nav-link">Kako delamo</a>
+      </div>
+
+      <!-- CTA -->
+      <div style="display:flex;align-items:center;gap:16px;" class="hidden-mobile">
+        <a href="#kontakt" class="btn-primary" style="padding:12px 24px;font-size:13px;">
+          Kontaktne informacije
+        </a>
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="menuBtn" onclick="document.getElementById('mobileMenu').classList.toggle('open')"
+        style="display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px;"
+        class="show-mobile" aria-label="Menu">
+        <span style="display:block;width:24px;height:2px;background:#fff;border-radius:2px;"></span>
+        <span style="display:block;width:24px;height:2px;background:#fff;border-radius:2px;"></span>
+        <span style="display:block;width:18px;height:2px;background:#fff;border-radius:2px;"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu" id="mobileMenu">
+  <button onclick="document.getElementById('mobileMenu').classList.remove('open')"
+    style="position:absolute;top:24px;right:32px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;">✕</button>
+  <a href="#storitve" class="mobile-nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">Storitve</a>
+  <a href="#kako" class="mobile-nav-link" onclick="document.getElementById('mobileMenu').classList.remove('open')">Kako delamo</a>
+  <a href="#kontakt" class="btn-primary" onclick="document.getElementById('mobileMenu').classList.remove('open')">Kontaktne informacije</a>
+</div>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="smoke-canvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1;"></canvas>
+
+  <!-- Radial glow at bottom -->
+  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:800px;height:400px;background:radial-gradient(ellipse at center bottom, rgba(230,60,30,0.22) 0%, transparent 70%);pointer-events:none;z-index:2;"></div>
+
+  <div style="position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 32px;width:100%;padding-top:100px;display:flex;align-items:center;gap:60px;">
+    <div style="flex:1;min-width:0;">
+      <span class="section-label fade-up" style="opacity:1;transform:none;font-size:20px;letter-spacing:0.15em;margin-bottom:16px;">Pizza Napoletana Catering</span>
+
+      <!-- Italian stripe -->
+      <div style="display:flex;height:3px;width:48px;border-radius:99px;overflow:hidden;margin-bottom:28px;">
+        <span style="flex:1;background:#009246;"></span>
+        <span style="flex:1;background:#fff;"></span>
+        <span style="flex:1;background:#E63C1E;"></span>
+      </div>
+
+      <h1 style="font-family:'Oswald',sans-serif;font-size:clamp(52px,7vw,96px);font-weight:700;line-height:0.95;letter-spacing:-0.02em;margin-bottom:28px;color:#fff;">
+        PRISTNA<br/>
+        <span style="color:#E63C1E;">NEAPELJSKA</span><br/>
+        PIZZA
+      </h1>
+
+      <p style="font-size:18px;line-height:1.75;color:rgba(255,255,255,0.65);max-width:520px;margin-bottom:16px;font-weight:300;">
+        Prinesemo peč, ogenj in neapeljsko tradicijo neposredno na vaš dogodek. Pizze se pečejo v živo pred vašimi gosti. Zagotavljamo svežino in hrustljavo izkušnjo — točno takšno kot mora biti!
+      </p>
+
+      <p style="font-family:'Oswald',sans-serif;font-size:16px;letter-spacing:0.15em;color:#E63C1E;text-transform:uppercase;margin-bottom:44px;">
+        V živo · Sveže · Hrustljavo
+      </p>
+
+      <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;">
+        <a href="#kontakt" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Kontaktne informacije
+        </a>
+        <a href="#storitve" class="btn-ghost">
+          Kaj nudimo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Product image gallery -->
+    <div class="hero-gallery hidden-mobile">
+      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_25.png" alt="Pizza Due Flame" />
+      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_27.png" alt="Pizza Due Flame" />
+      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_24_14.png" alt="Pizza Due Flame" />
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════ STATS BAR ═══════════════ -->
+<section style="background:linear-gradient(90deg,#111111,#161616,#111111);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);" class="stats-grid">
+    <!-- 100% hrustljavost -->
+    <div class="stat-item" style="display:flex;align-items:center;gap:16px;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="#E63C1E" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <path d="M24 4C24 4 14 14 14 24c0 5.52 4.48 10 10 10s10-4.48 10-10c0-3-1.5-5.5-3-7.5 0 0 0 4-3 6 0-6-4-12-4-18.5z"/>
+        <path d="M20 28c0 2.21 1.79 4 4 4s4-1.79 4-4c0-2-1.5-3.5-2.5-4.5 0 2-1.5 3-1.5 3C23.5 25 20 26.5 20 28z" fill="#ff6b35"/>
+      </svg>
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:44px;font-weight:700;color:#E63C1E;line-height:1;">100%</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:6px;letter-spacing:0.05em;">hrustljavost</div>
+      </div>
+    </div>
+    <!-- 48h+ vzhajanja testa -->
+    <div class="stat-item" style="display:flex;align-items:center;gap:16px;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#E63C1E" stroke-width="2.2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <path d="M18 10c0-2 1.5-4 1.5-4M24 8c0-2 1.5-4 1.5-4M30 10c0-2 1.5-4 1.5-4"/>
+        <path d="M10 30c0-7.73 6.27-14 14-14s14 6.27 14 14H10z" fill="#E63C1E" fill-opacity="0.15" stroke="#E63C1E"/>
+        <rect x="8" y="30" width="32" height="5" rx="2.5" fill="#E63C1E" stroke="none"/>
+        <rect x="12" y="35" width="24" height="3" rx="1.5" fill="#E63C1E" fill-opacity="0.5" stroke="none"/>
+      </svg>
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:44px;font-weight:700;color:#E63C1E;line-height:1;">48h+</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:6px;letter-spacing:0.05em;">vzhajanja testa</div>
+      </div>
+    </div>
+    <!-- 100% sveže sestavine -->
+    <div class="stat-item" style="display:flex;align-items:center;gap:16px;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#E63C1E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <path d="M24 38V22" />
+        <path d="M24 22C24 22 14 20 12 10c6 0 12 4 12 12z" fill="#E63C1E" fill-opacity="0.2" stroke="#E63C1E"/>
+        <path d="M24 28C24 28 34 26 36 16c-6 0-12 4-12 12z" fill="#E63C1E" fill-opacity="0.2" stroke="#E63C1E"/>
+      </svg>
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:44px;font-weight:700;color:#E63C1E;line-height:1;">100%</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:6px;letter-spacing:0.05em;">sveže sestavine</div>
+      </div>
+    </div>
+    <!-- 90s čas peke -->
+    <div class="stat-item" style="border-right:none;display:flex;align-items:center;gap:16px;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="#E63C1E" stroke-width="2.2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+        <circle cx="24" cy="26" r="16"/>
+        <path d="M24 18v8l5 3"/>
+        <path d="M18 6h12M24 6v4"/>
+      </svg>
+      <div>
+        <div style="font-family:'Oswald',sans-serif;font-size:44px;font-weight:700;color:#E63C1E;line-height:1;">90s</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:6px;letter-spacing:0.05em;">čas peke pizze</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section id="storitve" style="padding:120px 32px;background:#0A0A0A;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div style="margin-bottom:64px;" class="fade-up">
+      <span class="section-label">Naše storitve</span>
+      <h2 style="font-family:'Oswald',sans-serif;font-size:clamp(36px,4vw,56px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;margin-bottom:16px;">
+        PIZZA CATERING<br/>ZA VSAK DOGODEK
+      </h2>
+      <div class="flame-divider"></div>
+      <p style="font-size:16px;line-height:1.75;color:rgba(255,255,255,0.55);max-width:560px;margin-top:20px;font-weight:300;">
+        Prinesemo vso opremo, vse sestavine in super izkušnjo, o kateri bodo gosti govorili še mnogo let. Vi pa samo uživate in se posvetite gostom. In še bonus — za nami vam ne bo potrebno pospravljati in čistiti.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;" class="services-grid">
+
+      <!-- Card 1 -->
+      <div class="service-card fade-up" style="padding:40px 32px;">
+        <div class="icon-circle" style="margin-bottom:28px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="1.5">
+            <path d="M12 2c-1.5 0-2.5 1-2.5 2.5 0 .8.3 1.5.8 2L12 8l1.7-1.5c.5-.5.8-1.2.8-2C14.5 3 13.5 2 12 2z"/>
+            <path d="M12 8v4"/>
+            <path d="M8 12c-2.2 0-4 1.8-4 4v1h16v-1c0-2.2-1.8-4-4-4H8z"/>
+            <path d="M7 9c0 0-1-1-1-2.5S7 4 7 4"/>
+            <path d="M17 9c0 0 1-1 1-2.5S17 4 17 4"/>
+            <path d="M9 2.5c0 0 1 .5 1 1.5"/>
+            <path d="M15 2.5c0 0-1 .5-1 1.5"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;letter-spacing:0.03em;margin-bottom:14px;text-transform:uppercase;">Poroke &amp; Slavja</h3>
+        <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.55);font-weight:300;">
+          Naredimo vaš poseben dan še posebnejši. Sveža neapeljska pizza iz naše peči za vaše goste — spektakel, ki ga ne bodo pozabili.
+        </p>
+        <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.07);">
+          <span style="font-size:13px;color:#E63C1E;font-family:'Oswald',sans-serif;letter-spacing:0.1em;text-transform:uppercase;">Od 50 gostov naprej →</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="service-card fade-up" style="padding:40px 32px;">
+        <div class="icon-circle" style="margin-bottom:28px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;letter-spacing:0.03em;margin-bottom:14px;text-transform:uppercase;">Podjetniški Dogodki</h3>
+        <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.55);font-weight:300;">
+          Team building, produktne lansirne večeri, letni pikniki. Zagotovimo dožitek, ki poveže vaše zaposlene in pušča vtis.
+        </p>
+        <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.07);">
+          <span style="font-size:13px;color:#E63C1E;font-family:'Oswald',sans-serif;letter-spacing:0.1em;text-transform:uppercase;">Prilagodljivi paketi →</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="service-card fade-up" style="padding:40px 32px;border-color:rgba(230,60,30,0.2);background:linear-gradient(135deg,#1f1210,#141414);position:relative;overflow:hidden;">
+        <div style="position:absolute;top:0;right:0;background:#E63C1E;font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;padding:6px 16px;border-radius:0 0 0 12px;">Najbolj priljubljena</div>
+        <div class="icon-circle" style="margin-bottom:28px;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="1.5">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9,22 9,12 15,12 15,22"/>
+          </svg>
+        </div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;letter-spacing:0.03em;margin-bottom:14px;text-transform:uppercase;">Zasebne Zabave</h3>
+        <p style="font-size:15px;line-height:1.7;color:rgba(255,255,255,0.55);font-weight:300;">
+          Rojstnodnevne zabave, garden party, pikniki. Prinesemo ogenj in okus neapeljske ulice direktno v vaš vrt.
+        </p>
+        <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.07);">
+          <span style="font-size:13px;color:#E63C1E;font-family:'Oswald',sans-serif;letter-spacing:0.1em;text-transform:uppercase;">Od 15 gostov naprej →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ ABOUT / PHILOSOPHY ═══════════════ -->
+<section style="padding:120px 32px;background:linear-gradient(180deg,#0A0A0A 0%,#0e0a08 50%,#0A0A0A 100%);">
+  <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;" class="about-grid">
+
+    <!-- Image side -->
+    <div class="fade-up" style="position:relative;">
+      <div style="border-radius:16px;overflow:hidden;position:relative;background:#0d0504;aspect-ratio:640/760;display:flex;align-items:center;justify-content:center;">
+        <img src="Brand_assets/Logo transperent.png" alt="Due Flame"
+             style="width:72%;height:auto;display:block;object-fit:contain;" />
+        <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(230,60,30,0.12),transparent 60%);mix-blend-mode:multiply;pointer-events:none;"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);pointer-events:none;"></div>
+      </div>
+      <!-- Floating badge -->
+      <div style="position:absolute;bottom:32px;left:-24px;background:linear-gradient(135deg,#1A1A1A,#111);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:20px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.6);">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:44px;height:44px;border-radius:50%;background:rgba(230,60,30,0.15);border:1px solid rgba(230,60,30,0.3);display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          </div>
+          <div>
+            <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:#fff;line-height:1;">4,8</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.45);margin-top:2px;">Povprečna ocena</div>
+          </div>
+        </div>
+      </div>
+      <!-- Italian flag accent -->
+      <div style="position:absolute;top:24px;right:24px;display:flex;flex-direction:column;gap:4px;">
+        <div style="width:4px;height:20px;background:#009246;border-radius:2px;"></div>
+        <div style="width:4px;height:20px;background:#fff;border-radius:2px;"></div>
+        <div style="width:4px;height:20px;background:#E63C1E;border-radius:2px;"></div>
+      </div>
+    </div>
+
+    <!-- Text side -->
+    <div class="fade-up">
+      <span class="section-label">Naša zgodba</span>
+      <h2 style="font-family:'Oswald',sans-serif;font-size:clamp(34px,3.5vw,52px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;margin-bottom:16px;">
+        TRADICIJA NEAPLJA<br/>NA VAŠI MIZI
+      </h2>
+      <div class="flame-divider" style="margin-bottom:28px;"></div>
+
+      <p style="font-size:16px;line-height:1.8;color:rgba(255,255,255,0.6);margin-bottom:20px;font-weight:300;">
+        Due Flame prinaša pristno neapeljsko tradicijo pripravljanja pizze neposredno k vam. Vsaka pizza je narejena v živo, z rokami izkušenega picopeka, v plinski peči pri 450°C.
+      </p>
+      <p style="font-size:16px;line-height:1.8;color:rgba(255,255,255,0.6);margin-bottom:40px;font-weight:300;">
+        Naše testo vzhaja 48 ur, paradižnikova omaka prihaja direktno iz Italije, mozzarella je vedno sveža. Ker pizza ni samo hrana — je doživetje.
+      </p>
+
+      <!-- Features list -->
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="width:28px;height:28px;border-radius:6px;background:rgba(230,60,30,0.15);border:1px solid rgba(230,60,30,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <span style="font-size:15px;color:rgba(255,255,255,0.7);font-weight:300;">Testo vzhaja 48 ur za popolno hrustljavost</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="width:28px;height:28px;border-radius:6px;background:rgba(230,60,30,0.15);border:1px solid rgba(230,60,30,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <span style="font-size:15px;color:rgba(255,255,255,0.7);font-weight:300;">Plinska peč — 450°C za 90-sekundno peko</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="width:28px;height:28px;border-radius:6px;background:rgba(230,60,30,0.15);border:1px solid rgba(230,60,30,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <span style="font-size:15px;color:rgba(255,255,255,0.7);font-weight:300;">Sveže sestavine izbrane po dolgoletnih izkušnjah in testiranjih</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="width:28px;height:28px;border-radius:6px;background:rgba(230,60,30,0.15);border:1px solid rgba(230,60,30,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg>
+          </div>
+          <span style="font-size:15px;color:rgba(255,255,255,0.7);font-weight:300;">Prilagodljiv meni — od klasične margerite do bogatih eksotik</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section id="kako" style="padding:120px 32px;background:linear-gradient(180deg,#0A0A0A,#0d0a08,#0A0A0A);">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:72px;" class="fade-up">
+      <span class="section-label" style="display:block;text-align:center;">Proces</span>
+      <h2 style="font-family:'Oswald',sans-serif;font-size:clamp(36px,4vw,56px);font-weight:700;letter-spacing:-0.02em;line-height:1.05;margin-bottom:16px;">
+        KAKO DELAMO
+      </h2>
+      <div class="flame-divider" style="margin:16px auto 0;"></div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative;" class="steps-grid">
+
+      <!-- Connector line -->
+      <div style="position:absolute;top:44px;left:calc(12.5% + 28px);right:calc(12.5% + 28px);height:1px;background:linear-gradient(90deg,transparent,rgba(230,60,30,0.3) 20%,rgba(230,60,30,0.3) 80%,transparent);pointer-events:none;"></div>
+
+      <div class="step-card fade-up" style="padding:36px 28px;text-align:center;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgba(230,60,30,0.12);border:1px solid rgba(230,60,30,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#E63C1E;">1</div>
+        <h4 style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">Kontaktiraj</h4>
+        <p style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.5);font-weight:300;">Poišči nas in nam povedaj o svojem dogodku — datum, lokacija, število gostov.</p>
+      </div>
+
+      <div class="step-card fade-up" style="padding:36px 28px;text-align:center;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgba(230,60,30,0.12);border:1px solid rgba(230,60,30,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#E63C1E;">2</div>
+        <h4 style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">Sestavimo meni</h4>
+        <p style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.5);font-weight:300;">Skupaj sestavimo meni, ki ustreza okusom vaših gostov in vašemu budgetu.</p>
+      </div>
+
+      <div class="step-card fade-up" style="padding:36px 28px;text-align:center;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgba(230,60,30,0.12);border:1px solid rgba(230,60,30,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#E63C1E;">3</div>
+        <h4 style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">Pridemo k vam</h4>
+        <p style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.5);font-weight:300;">Prinesemo plinski peči, sestavine in opremo. Postavimo vse, segrejmo peči in začnemo pripravljati.</p>
+      </div>
+
+      <div class="step-card fade-up" style="padding:36px 28px;text-align:center;">
+        <div style="width:56px;height:56px;border-radius:50%;background:rgba(230,60,30,0.12);border:1px solid rgba(230,60,30,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:#E63C1E;">4</div>
+        <h4 style="font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;">Uživajte!</h4>
+        <p style="font-size:14px;line-height:1.7;color:rgba(255,255,255,0.5);font-weight:300;">Vi se zabavate, mi pečemo svežo pizzo. Dostavimo jo direktno do vaših gostov.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ═══════════════ CONTACT / CTA ═══════════════ -->
+<section id="kontakt" class="cta-section" style="padding:120px 32px;">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="background:linear-gradient(135deg,#1f1210,#151515);border:1px solid rgba(230,60,30,0.2);border-radius:24px;padding:64px 56px;position:relative;overflow:hidden;">
+      <div style="position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(230,60,30,0.12) 0%,transparent 70%);"></div>
+      <span class="section-label">Kontakt</span>
+      <h2 style="font-family:'Oswald',sans-serif;font-size:clamp(32px,3vw,48px);font-weight:700;letter-spacing:-0.02em;line-height:1.1;margin-bottom:16px;">
+        REZERVIRAJ<br/>TERMIN
+      </h2>
+      <div class="flame-divider" style="margin-bottom:32px;"></div>
+      <p style="font-size:16px;line-height:1.75;color:rgba(255,255,255,0.55);font-weight:300;margin-bottom:48px;">
+        Pošlji nam povpraševanje in odgovorimo ti v roku 24 ur ali pa nas enostavno pokliči na telefon.
+      </p>
+      <div style="display:flex;flex-direction:column;gap:28px;">
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="icon-circle">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Telefon</div>
+            <a href="tel:+38631336303" style="font-size:16px;font-weight:500;color:#fff;text-decoration:none;transition:color 0.2s;display:block;" onmouseover="this.style.color='#E63C1E'" onmouseout="this.style.color='#fff'">+386 31 336 303 - Sandi</a>
+            <a href="tel:+38651884054" style="font-size:16px;font-weight:500;color:#fff;text-decoration:none;transition:color 0.2s;display:block;margin-top:4px;" onmouseover="this.style.color='#E63C1E'" onmouseout="this.style.color='#fff'">+386 51 884 054 - Marko</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="icon-circle" style="transition:background 0.2s;cursor:pointer;" onclick="window.location.href='mailto:info@dueflame.si'" onmouseover="this.style.background='rgba(230,60,30,0.25)'" onmouseout="this.style.background=''">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Email</div>
+            <a href="mailto:info@dueflame.si" style="font-size:16px;font-weight:500;color:#fff;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#E63C1E'" onmouseout="this.style.color='#fff'">info@dueflame.si</a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="icon-circle" style="transition:background 0.2s;cursor:pointer;" onclick="window.scrollTo({top:0,behavior:'smooth'})" onmouseover="this.style.background='rgba(230,60,30,0.25)'" onmouseout="this.style.background=''">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E63C1E" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </div>
+          <div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;">Instagram</div>
+            <span style="font-size:16px;font-weight:500;color:#fff;cursor:pointer;" onclick="window.scrollTo({top:0,behavior:'smooth'})">@dueflame</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer style="background:#080808;padding:48px 32px 32px;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.06);flex-wrap:wrap;gap:24px;position:relative;">
+      <img src="Brand_assets/Logo brez slogana_transparent.png"
+           alt="Due Flame"
+           style="height:87px;width:auto;object-fit:contain;" />
+      <div style="display:flex;gap:28px;flex-wrap:wrap;position:absolute;left:50%;transform:translateX(-50%);">
+        <a href="#storitve" class="nav-link" style="font-size:13px;">Storitve</a>
+        <a href="#kako" class="nav-link" style="font-size:13px;">Kako delamo</a>
+        <a href="#kontakt" class="nav-link" style="font-size:13px;">Kontakt</a>
+      </div>
+      <!-- Social -->
+      <div style="display:flex;gap:12px;">
+        <a href="#" style="width:48px;height:48px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:border-color 0.2s ease,background 0.2s ease;color:rgba(255,255,255,0.5);" onmouseover="this.style.borderColor='rgba(230,60,30,0.4)';this.style.background='rgba(230,60,30,0.08)';this.style.color='#E63C1E'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='transparent';this.style.color='rgba(255,255,255,0.5)'" aria-label="Instagram">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" style="width:48px;height:48px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;transition:border-color 0.2s ease,background 0.2s ease;color:rgba(255,255,255,0.5);" onmouseover="this.style.borderColor='rgba(230,60,30,0.4)';this.style.background='rgba(230,60,30,0.08)';this.style.color='#E63C1E'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.background='transparent';this.style.color='rgba(255,255,255,0.5)'" aria-label="Facebook">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:24px;flex-wrap:wrap;gap:12px;">
+      <p style="font-size:13px;color:rgba(255,255,255,0.25);">© 2026 Due Flame. Vse pravice pridržane.</p>
+      <p style="font-size:13px;color:rgba(255,255,255,0.25);">Pizza Napoletana Catering · Slovenija</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: 1fr 1fr !important; }
+    .menu-grid { grid-template-columns: 1fr 1fr !important; }
+    .steps-grid { grid-template-columns: 1fr 1fr !important; }
+    .about-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+    .contact-grid { grid-template-columns: 1fr !important; }
+    .testimonials-grid { grid-template-columns: 1fr !important; }
+    .stats-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+  @media (max-width: 640px) {
+    .services-grid { grid-template-columns: 1fr !important; }
+    .menu-grid { grid-template-columns: 1fr !important; }
+    .steps-grid { grid-template-columns: 1fr !important; }
+    .hidden-mobile { display: none !important; }
+    .show-mobile { display: flex !important; }
+    .stats-grid { grid-template-columns: 1fr 1fr !important; }
+    .stat-item { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  }
+  @media (min-width: 641px) {
+    .show-mobile { display: none !important; }
+    #menuBtn { display: none !important; }
+  }
+</style>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+  });
+
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Stagger children in grids
+  document.querySelectorAll('.services-grid .fade-up, .steps-grid .fade-up, .menu-grid .fade-up, .testimonials-grid .fade-up').forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 0.1 + 's';
+  });
+
+  // ── WebGL Smoke Animation ──────────────────────────────────────────────────
+  (function initSmokeAnimation() {
+    const canvas = document.getElementById('smoke-canvas');
+    if (!canvas) return;
+    const gl = canvas.getContext('webgl2');
+    if (!gl) return; // graceful fallback — CSS gradient remains visible
+
+    const VERT = `#version 300 es
+precision highp float;
+in vec4 position;
+void main(){gl_Position=position;}`;
+
+    const FRAG = `#version 300 es
+precision highp float;
+out vec4 O;
+uniform float time;
+uniform vec2 resolution;
+uniform vec3 u_color;
+
+#define FC gl_FragCoord.xy
+#define R resolution
+#define T (time+660.)
+
+float rnd(vec2 p){p=fract(p*vec2(12.9898,78.233));p+=dot(p,p+34.56);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);return mix(mix(rnd(i),rnd(i+vec2(1,0)),u.x),mix(rnd(i+vec2(0,1)),rnd(i+1.),u.x),u.y);}
+float fbm(vec2 p){float t=.0,a=1.;for(int i=0;i<5;i++){t+=a*noise(p);p*=mat2(1,-1.2,.2,1.2)*2.;a*=.5;}return t;}
+
+void main(){
+  vec2 uv=(FC-.5*R)/R.y;
+  vec3 col=vec3(1);
+  uv.x+=.25;
+  uv*=vec2(2,1);
+  float n=fbm(uv*.28-vec2(T*.01,0));
+  n=noise(uv*3.+n*2.);
+  col.r-=fbm(uv+vec2(0,T*.015)+n);
+  col.g-=fbm(uv*1.003+vec2(0,T*.015)+n+.003);
+  col.b-=fbm(uv*1.006+vec2(0,T*.015)+n+.006);
+  col=mix(col, u_color, dot(col,vec3(.21,.71,.07)));
+  col=mix(vec3(.08),col,min(time*.1,1.));
+  col=clamp(col,.08,1.);
+  O=vec4(col,1);
+}`;
+
+    function createShader(type, src) {
+      const s = gl.createShader(type);
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS))
+        console.error('Shader error:', gl.getShaderInfoLog(s));
+      return s;
+    }
+
+    const program = gl.createProgram();
+    gl.attachShader(program, createShader(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(program, createShader(gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      console.error('Program link error:', gl.getProgramInfoLog(program));
+      return;
+    }
+
+    // Full-screen quad
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,1,-1,-1,1,1,1,-1]), gl.STATIC_DRAW);
+    const posLoc = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes   = gl.getUniformLocation(program, 'resolution');
+    const uTime  = gl.getUniformLocation(program, 'time');
+    const uColor = gl.getUniformLocation(program, 'u_color');
+
+    // Brand flame red #E63C1E → normalized floats
+    const smokeColor = new Float32Array([0.902, 0.235, 0.118]);
+
+    function resize() {
+      const dpr = Math.max(1, devicePixelRatio);
+      canvas.width  = canvas.offsetWidth  * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    function render(now) {
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(program);
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, now * 0.001);
+      gl.uniform3fv(uColor, smokeColor);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+  })();
+
+  // Hero gallery carousel
+  (function() {
+    const imgs = Array.from(document.querySelectorAll('.hero-product-img'));
+    if (!imgs.length) return;
+    const n = imgs.length;
+    let cur = 0;
+    let paused = false;
+
+    function advance() {
+      if (paused) return;
+      const old = cur;
+      cur = (cur + 1) % n;
+      imgs[old].classList.remove('active');
+      imgs[old].classList.add('leaving');
+      setTimeout(() => imgs[old].classList.remove('leaving'), 3100);
+      imgs[cur].classList.add('active');
+    }
+
+    imgs.forEach(img => {
+      img.addEventListener('mouseenter', () => {
+        if (!img.classList.contains('active')) return;
+        paused = true;
+        img.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+        img.style.transform = 'translateX(0) scale(1.4)';
+        img.style.transformOrigin = 'right center';
+        img.style.zIndex = '10';
+      });
+      img.addEventListener('mouseleave', () => {
+        if (!img.style.transform.includes('scale')) return;
+        img.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+        img.style.transform = 'translateX(0)';
+        img.style.zIndex = '';
+        setTimeout(() => {
+          img.style.transition = '';
+          img.style.transform = '';
+          img.style.transformOrigin = '';
+          paused = false;
+        }, 460);
+      });
+    });
+
+    imgs[0].classList.add('active');
+    setInterval(advance, 6000);
+  })();
+  // ──────────────────────────────────────────────────────────────────────────
+</script>
+</body>
+</html>
