@@ -513,9 +513,9 @@
 
     <!-- Product image gallery -->
     <div class="hero-gallery hidden-mobile">
-      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_25.png" alt="Pizza Due Flame" />
-      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_27.png" alt="Pizza Due Flame" />
-      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_24_14.png" alt="Pizza Due Flame" />
+      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_25.jpg" alt="Pizza Due Flame" />
+      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_27.jpg" alt="Pizza Due Flame" />
+      <img class="hero-product-img" src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_24_14.jpg" alt="Pizza Due Flame" />
     </div>
   </div>
 
@@ -659,22 +659,40 @@
 
     <!-- Image side -->
     <div class="fade-up" style="position:relative;">
-      <div style="border-radius:16px;overflow:hidden;position:relative;background:#0d0504;aspect-ratio:640/760;display:flex;align-items:center;justify-content:center;">
+      <div id="aboutGalleryTrigger" class="gallery-trigger" role="button" tabindex="0" aria-label="Odpri galerijo slik" style="border-radius:16px;overflow:hidden;position:relative;background:#0d0504;aspect-ratio:640/760;display:flex;align-items:center;justify-content:center;">
+        <!-- Gallery hint -->
+        <div class="gallery-hint"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Odpri galerijo</div>
         <!-- Slide 1: Logo -->
         <div class="about-slide" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity 1.2s ease;opacity:1;z-index:2;">
           <img src="Brand_assets/Logo transperent.png" alt="Due Flame" style="width:72%;height:auto;object-fit:contain;" />
         </div>
         <!-- Slide 2 -->
         <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
-          <img src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_25.png" alt="Pizza Due Flame" style="width:100%;height:100%;object-fit:cover;" />
+          <img src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_25.jpg" alt="Pizza Due Flame" style="width:100%;height:100%;object-fit:cover;" />
         </div>
         <!-- Slide 3 -->
         <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
-          <img src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_27.png" alt="Pizza Due Flame" style="width:100%;height:100%;object-fit:cover;" />
+          <img src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_23_27.jpg" alt="Pizza Due Flame" style="width:100%;height:100%;object-fit:cover;" />
         </div>
         <!-- Slide 4 -->
         <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
-          <img src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_24_14.png" alt="Pizza Due Flame" style="width:100%;height:100%;object-fit:cover;" />
+          <img src="Slike_izdelkov/ChatGPT Image 22. maj 2026, 16_24_14.jpg" alt="Pizza Due Flame" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+        <!-- Slide 5 -->
+        <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
+          <img src="Slike_izdelkov/pizza-v-skatli.jpg" alt="Pizza Due Flame v škatli" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+        <!-- Slide 6 -->
+        <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
+          <img src="Slike_izdelkov/pec-ooni.jpg" alt="Peč za pizze Due Flame" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+        <!-- Slide 7 -->
+        <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
+          <img src="Slike_izdelkov/skatle-pizza.jpg" alt="Škatle za pizze Due Flame" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
+        <!-- Slide 8 -->
+        <div class="about-slide" style="position:absolute;inset:0;transition:opacity 1.2s ease;opacity:0;z-index:1;">
+          <img src="Slike_izdelkov/testo.jpg" alt="Testo za pizze Due Flame" loading="lazy" style="width:100%;height:100%;object-fit:cover;" />
         </div>
         <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(230,60,30,0.12),transparent 60%);mix-blend-mode:multiply;pointer-events:none;z-index:3;"></div>
         <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);pointer-events:none;z-index:3;"></div>
@@ -693,6 +711,10 @@
         <!-- Dots -->
         <div style="position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:5;">
           <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:#E63C1E;transition:background 0.3s;"></span>
+          <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
+          <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
+          <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
+          <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
           <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
           <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
           <span class="about-dot" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.3);transition:background 0.3s;"></span>
@@ -906,6 +928,80 @@
     .show-mobile { display: none !important; }
     #menuBtn { display: none !important; }
   }
+
+  /* GALLERY LIGHTBOX */
+  .gallery-trigger { cursor: pointer; }
+  .gallery-trigger:focus-visible { outline: 2px solid #E63C1E; outline-offset: 4px; }
+  .gallery-hint {
+    position: absolute; top: 16px; right: 16px; z-index: 6;
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 14px; border-radius: 999px;
+    background: rgba(10,10,10,0.55); border: 1px solid rgba(255,255,255,0.12);
+    backdrop-filter: blur(8px);
+    font-family: 'Oswald', sans-serif; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 2px 8px rgba(230,60,30,0.12);
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none;
+  }
+  .gallery-trigger:hover .gallery-hint, .gallery-trigger:focus-visible .gallery-hint { opacity: 1; transform: translateY(0); }
+  .gallery-trigger:active .gallery-hint { transform: scale(0.96); }
+  @media (hover: none) { .gallery-hint { opacity: 1; transform: none; } }
+
+  .lightbox {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; flex-direction: column;
+    background: radial-gradient(ellipse at 50% 30%, rgba(230,60,30,0.10), transparent 60%), rgba(6,6,6,0.96);
+    backdrop-filter: blur(10px);
+    opacity: 0; pointer-events: none; visibility: hidden;
+    transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+  }
+  .lightbox.open { opacity: 1; pointer-events: auto; visibility: visible; transition: opacity 0.35s ease, visibility 0s; }
+  .lb-top { display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; }
+  .lb-title { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.85); }
+  .lb-title span { color: #E63C1E; margin-left: 12px; letter-spacing: 0.08em; }
+  .lb-btn {
+    width: 48px; height: 48px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #fff; cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s ease;
+  }
+  .lb-btn:hover { transform: scale(1.08); }
+  .lb-btn:hover svg { color: #E63C1E; }
+  .lb-btn:active { transform: scale(0.94); }
+  .lb-btn:focus-visible { outline: 2px solid #E63C1E; outline-offset: 3px; }
+  .lb-stage { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; padding: 0 88px; }
+  .lb-img {
+    max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 8px 24px rgba(230,60,30,0.10);
+    transition: opacity 0.3s ease, transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .lb-img.swap { opacity: 0; transform: scale(0.97); }
+  .lightbox:not(.open) .lb-img { transform: scale(0.95); }
+  .lb-prev, .lb-next { position: absolute; top: 50%; margin-top: -24px; }
+  .lb-prev { left: 24px; }
+  .lb-next { right: 24px; }
+  .lb-thumbs { display: flex; gap: 10px; justify-content: center; padding: 20px 24px 24px; overflow-x: auto; }
+  .lb-thumb {
+    flex: 0 0 auto; width: 64px; height: 80px; border-radius: 8px; overflow: hidden; padding: 0;
+    border: 2px solid transparent; background: #111; cursor: pointer; opacity: 0.45;
+    transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .lb-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .lb-thumb:hover { opacity: 0.85; transform: translateY(-2px); }
+  .lb-thumb:active { transform: scale(0.95); }
+  .lb-thumb:focus-visible { outline: 2px solid #E63C1E; outline-offset: 2px; }
+  .lb-thumb.active { opacity: 1; border-color: #E63C1E; }
+  @media (max-width: 640px) {
+    .lb-stage { padding: 0 16px 64px; }
+    .lb-prev, .lb-next { top: auto; bottom: 8px; margin-top: 0; width: 44px; height: 44px; }
+    .lb-prev { left: calc(50% - 56px); }
+    .lb-next { right: calc(50% - 56px); }
+    .lb-top { padding: 16px; }
+    .lb-thumbs { justify-content: flex-start; padding: 16px; }
+    .lb-thumb { width: 52px; height: 64px; }
+  }
 </style>
 
 <script>
@@ -1096,6 +1192,113 @@ void main(){
     setInterval(advance, 6000);
   })();
   // ──────────────────────────────────────────────────────────────────────────
+</script>
+
+<!-- ═══════════════ GALLERY LIGHTBOX ═══════════════ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Galerija slik" aria-hidden="true">
+  <div class="lb-top">
+    <div class="lb-title">Galerija<span id="lbCounter">1 / 1</span></div>
+    <button class="lb-btn" id="lbClose" aria-label="Zapri galerijo">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <img class="lb-img" id="lbImg" src="" alt="" />
+    <button class="lb-btn lb-prev" id="lbPrev" aria-label="Prejšnja slika">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <button class="lb-btn lb-next" id="lbNext" aria-label="Naslednja slika">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </div>
+  <div class="lb-thumbs" id="lbThumbs"></div>
+</div>
+
+<script>
+  // Gallery lightbox — opens from the About slideshow
+  (function() {
+    const trigger = document.getElementById('aboutGalleryTrigger');
+    const lb = document.getElementById('lightbox');
+    if (!trigger || !lb) return;
+    const slides = Array.from(document.querySelectorAll('.about-slide'));
+    const photos = slides.map(s => s.querySelector('img'))
+      .filter(img => img && img.getAttribute('src').startsWith('Slike_izdelkov'))
+      .map(img => ({ src: img.getAttribute('src'), alt: img.alt }));
+    const lbImg = document.getElementById('lbImg');
+    const counter = document.getElementById('lbCounter');
+    const thumbs = document.getElementById('lbThumbs');
+    let cur = 0, lastFocus = null;
+
+    photos.forEach((p, i) => {
+      const b = document.createElement('button');
+      b.className = 'lb-thumb';
+      b.setAttribute('aria-label', 'Slika ' + (i + 1));
+      const t = document.createElement('img');
+      t.src = p.src; t.alt = ''; t.loading = 'lazy';
+      b.appendChild(t);
+      b.addEventListener('click', () => show(i));
+      thumbs.appendChild(b);
+    });
+
+    function show(i) {
+      cur = (i + photos.length) % photos.length;
+      const apply = () => {
+        lbImg.src = photos[cur].src;
+        lbImg.alt = photos[cur].alt;
+        lbImg.classList.remove('swap');
+      };
+      if (lb.classList.contains('open')) {
+        lbImg.classList.add('swap');
+        setTimeout(apply, 180);
+      } else apply();
+      counter.textContent = (cur + 1) + ' / ' + photos.length;
+      Array.from(thumbs.children).forEach((t, j) => t.classList.toggle('active', j === cur));
+    }
+    function open() {
+      // Start at the photo currently visible in the slideshow (logo slide → first photo)
+      const visible = slides.find(s => s.style.opacity === '1');
+      const src = visible && visible.querySelector('img').getAttribute('src');
+      lastFocus = document.activeElement;
+      show(Math.max(0, photos.findIndex(p => p.src === src)));
+      lb.classList.add('open');
+      lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('lbClose').focus();
+    }
+    function close() {
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus) lastFocus.focus();
+    }
+
+    trigger.addEventListener('click', open);
+    trigger.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+    });
+    document.getElementById('lbClose').addEventListener('click', close);
+    document.getElementById('lbPrev').addEventListener('click', () => show(cur - 1));
+    document.getElementById('lbNext').addEventListener('click', () => show(cur + 1));
+    document.getElementById('lbStage').addEventListener('click', e => {
+      if (e.target.id === 'lbStage') close();
+    });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowLeft') show(cur - 1);
+      else if (e.key === 'ArrowRight') show(cur + 1);
+    });
+
+    // Swipe on touch devices
+    let x0 = null;
+    lbImg.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    lbImg.addEventListener('touchend', e => {
+      if (x0 === null) return;
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+      x0 = null;
+    });
+  })();
 </script>
 </body>
 </html>
